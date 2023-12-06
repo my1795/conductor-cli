@@ -41,8 +41,26 @@ var workflowCmd = &cobra.Command{
 
 	},
 }
+var workflowListCmd = &cobra.Command{
+	Use:   "list",
+	Short: "workflow list resource operations",
+	Long:  ``,
+	Run: func(cmd *cobra.Command, args []string) {
+		var MetadataClient = client.MetadataResourceApiService{
+			APIClient: client.NewAPIClient(nil, settings.NewHttpDefaultSettings()),
+		}
+		var callRes, _, _ = MetadataClient.GetAll(context.Background())
+
+		// Iterate through the struct array and print the name field
+		for _, item := range callRes {
+			fmt.Println("name", item.Name, "version", item.Version, "createdBy", item.CreatedBy)
+		}
+
+	},
+}
 
 func init() {
+	workflowCmd.AddCommand(workflowListCmd)
 	rootCmd.AddCommand(workflowCmd)
 
 	// Here you will define your flags and configuration settings.
