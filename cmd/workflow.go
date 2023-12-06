@@ -4,12 +4,14 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"cnd/cmd/util"
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/conductor-sdk/conductor-go/sdk/settings"
 	"github.com/tidwall/pretty"
 
+	_ "cnd/cmd/util"
 	"github.com/conductor-sdk/conductor-go/sdk/client"
 	"github.com/spf13/cobra"
 )
@@ -43,18 +45,33 @@ var workflowCmd = &cobra.Command{
 }
 var workflowListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "workflow list resource operations",
-	Long:  ``,
+	Short: "lists workflows as summary",
+	Long:  `To get full workflow definition please use workflow <<workflowName>>`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var MetadataClient = client.MetadataResourceApiService{
 			APIClient: client.NewAPIClient(nil, settings.NewHttpDefaultSettings()),
 		}
 		var callRes, _, _ = MetadataClient.GetAll(context.Background())
+		var summaries []util.WorkflowDefSummary
 
-		// Iterate through the struct array and print the name field
+		// Iterate through the callRes and generate summaries
 		for _, item := range callRes {
-			fmt.Println("name", item.Name, "version", item.Version, "createdBy", item.CreatedBy)
+			summary, _ := util.SummarizeWorkflowDef(&item)
+			summaries = append(summaries, summary)
 		}
+
+		// Marshal the entire slice into JSON
+		jsonData, err := json.MarshalIndent(summaries, "", "  ")
+		if err != nil {
+			fmt.Println("Error marshaling summaries:", err)
+			return
+		}
+
+		// Beautify the JSON using pretty package
+		beautifiedSummary := pretty.Pretty(jsonData)
+
+		// Print the JSON array
+		fmt.Println(string(beautifiedSummary))
 
 	},
 }
