@@ -6,5 +6,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="learning-go-2875237" />
+    <orderEntry type="module" module-name="training" />
   </component>
 </module>
