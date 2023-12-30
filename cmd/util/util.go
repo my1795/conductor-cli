@@ -1,8 +1,11 @@
 package util
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/conductor-sdk/conductor-go/sdk/model"
+	"github.com/tidwall/pretty"
 )
 
 type WorkflowDefSummary struct {
@@ -38,4 +41,19 @@ func SummarizeWorkflowDef(wfDef *model.WorkflowDef) (WorkflowDefSummary, error) 
 	}
 
 	return summary, nil
+}
+
+func PrintJSON(data interface{}) {
+	// Marshal the entire slice into JSON
+	jsonData, err := json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		fmt.Println("Error marshaling data:", err)
+		return
+	}
+
+	// Beautify the JSON using pretty package
+	prettified := pretty.Pretty(jsonData)
+
+	// Print the JSON array
+	fmt.Println(string(prettified))
 }

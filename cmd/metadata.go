@@ -4,16 +4,13 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"cnd/cmd/util"
+	_ "cnd/cmd/util"
 	"context"
-	"encoding/json"
-	"fmt"
 	"github.com/antihax/optional"
+	"github.com/conductor-sdk/conductor-go/sdk/client"
 	"github.com/conductor-sdk/conductor-go/sdk/model"
 	"github.com/conductor-sdk/conductor-go/sdk/settings"
-	"github.com/tidwall/pretty"
-
-	_ "cnd/cmd/util"
-	"github.com/conductor-sdk/conductor-go/sdk/client"
 	"github.com/spf13/cobra"
 )
 
@@ -58,14 +55,14 @@ func printWorkflowDefs() {
 		summaries = append(summaries, item)
 	}
 
-	printJSON(summaries)
+	util.PrintJSON(summaries)
 }
 func printWorkflowDef(name string, version optional.Int32) {
 	ver := client.MetadataResourceApiGetOpts{
 		Version: version,
 	}
 	var callRes, _, _ = MetadataClient.Get(context.Background(), name, &ver)
-	printJSON(callRes)
+	util.PrintJSON(callRes)
 }
 func printTaskDefs() {
 	var callRes, _, _ = MetadataClient.GetTaskDefs(context.Background())
@@ -77,25 +74,11 @@ func printTaskDefs() {
 		summaries = append(summaries, item)
 	}
 
-	printJSON(summaries)
+	util.PrintJSON(summaries)
 }
 func printTaskDef(name string) {
 	var callRes, _, _ = MetadataClient.GetTaskDef(context.Background(), name)
-	printJSON(callRes)
-}
-func printJSON(data interface{}) {
-	// Marshal the entire slice into JSON
-	jsonData, err := json.MarshalIndent(data, "", "  ")
-	if err != nil {
-		fmt.Println("Error marshaling data:", err)
-		return
-	}
-
-	// Beautify the JSON using pretty package
-	prettified := pretty.Pretty(jsonData)
-
-	// Print the JSON array
-	fmt.Println(string(prettified))
+	util.PrintJSON(callRes)
 }
 
 func init() {
