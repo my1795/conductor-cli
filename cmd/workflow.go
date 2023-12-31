@@ -54,9 +54,9 @@ var showWorkflowCmd = &cobra.Command{
 	Short:   "shows workflow exectuions by their id",
 	Long: `For example:
 		
-		cnd workflow show <<workflowId>> returns list of running workflow executions.
+		cnd workflow show <<workflowId>>.
 
-		Please visit api/workflow/{} in swagger documentation of the project. This command's scoped by workflow-resource api`,
+		Please visit api/workflow/{workflowId} in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
 		includeTasks, _ := cmd.Flags().GetBool("include-tasks")
 		tasks := client.WorkflowResourceApiGetExecutionStatusOpts{
@@ -69,11 +69,38 @@ var showWorkflowCmd = &cobra.Command{
 	},
 }
 
+var restartWorkflowCmd = &cobra.Command{
+	Use:     "restart",
+	Aliases: []string{"re"},
+	Short:   "restarts workflow executions by their id",
+	Long: `For example:
+		
+		cnd workflow restart <<workflowId>> 
+
+		Please visit api/workflow/{workflowId}/restart in swagger documentation of the project. This command's scoped by workflow-resource api`,
+	Run: func(cmd *cobra.Command, args []string) {
+		useLatestDef, _ := cmd.Flags().GetBool("use-latest-definition")
+		restartOpts := client.WorkflowResourceApiRestartOpts{
+			UseLatestDefinitions: optional.NewBool(useLatestDef),
+		}
+		var resp, err = workflowResourceService.Restart(context.Background(), args[0], &restartOpts)
+		if err == nil {
+			if resp.StatusCode >= 200 && resp.StatusCode <= 400 {
+				fmt.Println("Workflow Restarted with id ", args[0])
+			}
+		} else {
+			fmt.Println("Operation could not be handled by error", err)
+		}
+	},
+}
+
 func init() {
 	workflowCmd.PersistentFlags().Int32P("version", "v", 1, "version for workflow  resource")
 	showWorkflowCmd.Flags().BoolP("include-tasks", "t", false, "includes task executions in the workflow executions")
+	restartWorkflowCmd.Flags().BoolP("use-latest-definition", "d", false, "decides if latest workflow definition will be used or not")
 	workflowCmd.AddCommand(workflowRunningCmd)
 	workflowCmd.AddCommand(showWorkflowCmd)
+	workflowCmd.AddCommand(restartWorkflowCmd)
 	rootCmd.AddCommand(workflowCmd)
 
 	// Here you will define your flags and configuration settings.
