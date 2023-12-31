@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../learning-go-2875237" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../training" vcs="Git" />
   </component>
 </project>
