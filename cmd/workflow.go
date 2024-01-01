@@ -181,6 +181,29 @@ var resumeWorkflowCmd = &cobra.Command{
 		}
 	},
 }
+var retryWorkflowCmd = &cobra.Command{
+	Use:   "retry",
+	Short: "retries workflow executions by their id",
+	Long: `For example:
+		
+		cnd workflow retry <<workflowId>> 
+
+		Please visit api/workflow/{workflowId}/retry in swagger documentation of the project. This command's scoped by workflow-resource api`,
+	Run: func(cmd *cobra.Command, args []string) {
+		retryFlag, _ := cmd.Flags().GetBool("resume-sub-workflow-tasks")
+		retryOpts := client.WorkflowResourceApiRetryOpts{
+			ResumeSubworkflowTasks: optional.NewBool(retryFlag),
+		}
+		var resp, err = workflowResourceService.Retry(context.Background(), args[0], &retryOpts)
+		if err == nil {
+			if resp.StatusCode >= 200 && resp.StatusCode <= 400 {
+				fmt.Println("Workflow retried with id ", args[0])
+			}
+		} else {
+			fmt.Println("Operation could not be handled by error", err)
+		}
+	},
+}
 
 func init() {
 	workflowCmd.PersistentFlags().Int32P("version", "v", 1, "version for workflow  resource")
@@ -188,6 +211,7 @@ func init() {
 	restartWorkflowCmd.Flags().BoolP("use-latest-definition", "d", false, "decides if latest workflow definition will be used or not")
 	terminateWorkflowCmd.Flags().StringP("reason", "r", "", "reason for terminating the workflow")
 	terminateWorkflowCmd.Flags().BoolP("trigger-failure-wf", "t", false, "Failure workflow trigger flag. triggers related failure workflow if exists")
+	retryWorkflowCmd.Flags().BoolP("resume-sub-workflow-tasks", "r", false, "Resumes from sub workflow last failed task if exists")
 	workflowCmd.AddCommand(workflowRunningCmd)
 	workflowCmd.AddCommand(showWorkflowCmd)
 	workflowCmd.AddCommand(restartWorkflowCmd)
@@ -195,6 +219,7 @@ func init() {
 	workflowCmd.AddCommand(terminateWorkflowCmd)
 	workflowCmd.AddCommand(pauseWorkflowCmd)
 	workflowCmd.AddCommand(resumeWorkflowCmd)
+	workflowCmd.AddCommand(retryWorkflowCmd)
 	rootCmd.AddCommand(workflowCmd)
 
 	// Here you will define your flags and configuration settings.
