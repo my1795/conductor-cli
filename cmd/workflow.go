@@ -50,7 +50,7 @@ var workflowRunningCmd = &cobra.Command{
 
 var showWorkflowCmd = &cobra.Command{
 	Use:     "show",
-	Aliases: []string{"sw"},
+	Aliases: []string{"sh"},
 	Short:   "shows workflow exectuions by their id",
 	Long: `For example:
 		
@@ -93,14 +93,108 @@ var restartWorkflowCmd = &cobra.Command{
 		}
 	},
 }
+var searchWorkflowCmd = &cobra.Command{
+	Use:     "search",
+	Aliases: []string{"se"},
+	Short:   "searches workflow executions by given free text",
+	Long: `For example:
+		
+		cnd workflow search <<freetext>> 
+
+		Please visit api/workflow/search-v2 in swagger documentation of the project. This command's scoped by workflow-resource api`,
+	Run: func(cmd *cobra.Command, args []string) {
+		searchOpts := client.WorkflowResourceApiSearchV2Opts{
+			FreeText: optional.NewString(args[0]),
+		}
+		var searchResult, resp, err = workflowResourceService.SearchV2(context.Background(), &searchOpts)
+		if err == nil {
+			if resp.StatusCode >= 200 && resp.StatusCode <= 400 {
+				util.PrintJSON(searchResult)
+			}
+		} else {
+			fmt.Println("Operation could not be handled by error", err)
+		}
+	},
+}
+var terminateWorkflowCmd = &cobra.Command{
+	Use:     "terminate",
+	Aliases: []string{"te"},
+	Short:   "terminates workflow executions by workflowId",
+	Long: `For example:
+		
+		cnd workflow search <<workflowId>> 
+
+		Please visit DELETE api/workflow/<<workflowId>> in swagger documentation of the project. This command's scoped by workflow-resource api`,
+	Run: func(cmd *cobra.Command, args []string) {
+		reason, _ := cmd.Flags().GetString("reason")
+		triggerWorkflow, _ := cmd.Flags().GetBool("trigger-failure-wf")
+		terminateOpts := client.WorkflowResourceApiTerminateOpts{
+			Reason:                 optional.NewString(reason),
+			TriggerFailureWorkflow: optional.NewBool(triggerWorkflow),
+		}
+		var resp, err = workflowResourceService.Terminate(context.Background(), args[0], &terminateOpts)
+		if err == nil {
+			if resp.StatusCode >= 200 && resp.StatusCode <= 400 {
+				fmt.Println("Workflow terminated with id ", args[0])
+			}
+		} else {
+			fmt.Println("Operation could not be handled by error", err)
+		}
+	},
+}
+var pauseWorkflowCmd = &cobra.Command{
+	Use:     "pause",
+	Aliases: []string{"pa"},
+	Short:   "pauses workflow executions by workflowId",
+	Long: `For example:
+		
+		cnd workflow pause <<workflowId>> 
+
+		Please visit PUT api/workflow/<<workflowId>>/pause in swagger documentation of the project. This command's scoped by workflow-resource api`,
+	Run: func(cmd *cobra.Command, args []string) {
+		var resp, err = workflowResourceService.PauseWorkflow(context.Background(), args[0])
+		if err == nil {
+			if resp.StatusCode >= 200 && resp.StatusCode <= 400 {
+				fmt.Println("Workflow paused with id ", args[0])
+			}
+		} else {
+			fmt.Println("Operation could not be handled by error", err)
+		}
+	},
+}
+var resumeWorkflowCmd = &cobra.Command{
+	Use:   "resume",
+	Short: "resumes workflow executions by workflowId",
+	Long: `For example:
+		
+		cnd workflow resume <<workflowId>> 
+
+		Please visit PUT api/workflow/<<workflowId>>/resume in swagger documentation of the project. This command's scoped by workflow-resource api`,
+	Run: func(cmd *cobra.Command, args []string) {
+		var resp, err = workflowResourceService.ResumeWorkflow(context.Background(), args[0])
+		if err == nil {
+			if resp.StatusCode >= 200 && resp.StatusCode <= 400 {
+				fmt.Println("Workflow paused with id ", args[0])
+			}
+		} else {
+			fmt.Println("Operation could not be handled by error", err)
+		}
+	},
+}
 
 func init() {
 	workflowCmd.PersistentFlags().Int32P("version", "v", 1, "version for workflow  resource")
 	showWorkflowCmd.Flags().BoolP("include-tasks", "t", false, "includes task executions in the workflow executions")
 	restartWorkflowCmd.Flags().BoolP("use-latest-definition", "d", false, "decides if latest workflow definition will be used or not")
+	terminateWorkflowCmd.Flags().StringP("reason", "r", "", "reason for terminating the workflow")
+	terminateWorkflowCmd.Flags().BoolP("trigger-failure-wf", "t", false, "Failure workflow trigger flag. triggers related failure workflow if exists")
 	workflowCmd.AddCommand(workflowRunningCmd)
 	workflowCmd.AddCommand(showWorkflowCmd)
 	workflowCmd.AddCommand(restartWorkflowCmd)
+	workflowCmd.AddCommand(searchWorkflowCmd)
+	workflowCmd.AddCommand(terminateWorkflowCmd)
+	workflowCmd.AddCommand(pauseWorkflowCmd)
+	workflowCmd.AddCommand(resumeWorkflowCmd)
 	rootCmd.AddCommand(workflowCmd)
 
 	// Here you will define your flags and configuration settings.
