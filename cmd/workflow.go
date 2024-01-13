@@ -11,10 +11,11 @@ import (
 	"github.com/conductor-sdk/conductor-go/sdk/client"
 	"github.com/conductor-sdk/conductor-go/sdk/settings"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var workflowResourceService = client.WorkflowResourceApiService{
-	APIClient: client.NewAPIClient(nil, settings.NewHttpDefaultSettings()),
+	APIClient: client.NewAPIClient(nil, settings.NewHttpSettings(viper.GetString("baseurl"))),
 }
 var workflowCmd = &cobra.Command{
 	Use:     "workflow",

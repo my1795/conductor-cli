@@ -10,12 +10,13 @@ import (
 	"github.com/antihax/optional"
 	"github.com/conductor-sdk/conductor-go/sdk/client"
 	"github.com/conductor-sdk/conductor-go/sdk/settings"
+	"github.com/spf13/viper"
 
 	"github.com/spf13/cobra"
 )
 
 var taskResourceService = client.TaskResourceApiService{
-	APIClient: client.NewAPIClient(nil, settings.NewHttpDefaultSettings()),
+	APIClient: client.NewAPIClient(nil, settings.NewHttpSettings(viper.GetString("baseurl"))),
 }
 
 // taskCmd represents the task command

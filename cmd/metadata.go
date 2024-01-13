@@ -12,10 +12,11 @@ import (
 	"github.com/conductor-sdk/conductor-go/sdk/model"
 	"github.com/conductor-sdk/conductor-go/sdk/settings"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var MetadataClient = client.MetadataResourceApiService{
-	APIClient: client.NewAPIClient(nil, settings.NewHttpDefaultSettings()),
+	APIClient: client.NewAPIClient(nil, settings.NewHttpSettings(viper.GetString("baseurl"))),
 }
 var metadataCMD = &cobra.Command{
 	Use:     "metadata",
