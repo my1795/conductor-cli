@@ -23,9 +23,11 @@ baseurl: http://localhost:8080/api`
 if you are using orkes conductor get your key and secret like described https://orkes.io/content/how-to-videos/access-key-and-secret 
 and put them in your yaml config like this
 
-`baseurl: http://localhost:8080/api
+```
+baseurl: http://localhost:8080/api
 key: <<your-key>>
-secret <<your-secret>>`
+secret <<your-secret>>
+```
 
 
 
