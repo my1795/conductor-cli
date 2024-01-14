@@ -1,4 +1,4 @@
-module github.com/my1795/conductor-commander-go
+module github.com/my1795/conductor-cli
 
 go 1.19
 

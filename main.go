@@ -3,7 +3,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "github.com/my1795/conductor-commander-go/cmd"
+import "github.com/my1795/conductor-cli/cmd"
 
 func main() {
 	cmd.Execute()
