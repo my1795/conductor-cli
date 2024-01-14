@@ -15,7 +15,7 @@ import (
 )
 
 var workflowResourceService = client.WorkflowResourceApiService{
-	APIClient: client.NewAPIClient(nil, settings.NewHttpSettings(viper.GetString("baseurl"))),
+	APIClient: client.NewAPIClient(util.Authsettings, settings.NewHttpSettings(viper.GetString("baseurl"))),
 }
 var workflowCmd = &cobra.Command{
 	Use:     "workflow",

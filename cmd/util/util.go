@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/conductor-sdk/conductor-go/sdk/model"
+	"github.com/conductor-sdk/conductor-go/sdk/settings"
+	"github.com/spf13/viper"
 	"github.com/tidwall/pretty"
 )
 
@@ -57,3 +59,10 @@ func PrintJSON(data interface{}) {
 	// Print the JSON array
 	fmt.Println(string(prettified))
 }
+
+var Authsettings = func() *settings.AuthenticationSettings {
+	if viper.IsSet("key") && viper.IsSet("secret") {
+		return settings.NewAuthenticationSettings(viper.GetString("key"), viper.GetString("secret"))
+	}
+	return nil
+}()

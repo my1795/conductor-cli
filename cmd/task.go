@@ -16,7 +16,7 @@ import (
 )
 
 var taskResourceService = client.TaskResourceApiService{
-	APIClient: client.NewAPIClient(nil, settings.NewHttpSettings(viper.GetString("baseurl"))),
+	APIClient: client.NewAPIClient(util.Authsettings, settings.NewHttpSettings(viper.GetString("baseurl"))),
 }
 
 // taskCmd represents the task command

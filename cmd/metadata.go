@@ -16,7 +16,7 @@ import (
 )
 
 var MetadataClient = client.MetadataResourceApiService{
-	APIClient: client.NewAPIClient(nil, settings.NewHttpSettings(viper.GetString("baseurl"))),
+	APIClient: client.NewAPIClient(util.Authsettings, settings.NewHttpSettings(viper.GetString("baseurl"))),
 }
 var metadataCMD = &cobra.Command{
 	Use:     "metadata",
