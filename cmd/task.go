@@ -4,12 +4,12 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"cnd/cmd/util"
 	"context"
 	"fmt"
 	"github.com/antihax/optional"
 	"github.com/conductor-sdk/conductor-go/sdk/client"
 	"github.com/conductor-sdk/conductor-go/sdk/settings"
+	"github.com/my1795/conductor-commander-go/cmd/util"
 	"github.com/spf13/viper"
 
 	"github.com/spf13/cobra"
