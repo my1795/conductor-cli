@@ -44,7 +44,7 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().StringVar(&cfgFile, ".cnd", "", "config file (default is $HOME/.cnd.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, ".cnd", "", "config file (default is $HOME/.conductor-cli.yaml)")
 	rootCmd.PersistentFlags().Bool("viper", true, "Use Viper for configuration")
 
 }
@@ -63,9 +63,9 @@ func initConfig() {
 		viper.Set("baseurl", "http://localhost:8080/api")
 		// Search config in home directory with name ".cnd" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".cnd")
+		viper.SetConfigName(".conductor-cli")
 		viper.SetConfigType("yaml")
-		viper.SetConfigFile(home + "/.cnd.yaml")
+		viper.SetConfigFile(home + "/.conductor-cli.yaml")
 		//safe write
 		viper.SafeWriteConfigAs(viper.ConfigFileUsed())
 	}
