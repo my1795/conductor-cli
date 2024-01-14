@@ -35,3 +35,5 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace cnd => github.com/my1795/conductor-commander-go v1.0.1
