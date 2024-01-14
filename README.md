@@ -12,8 +12,10 @@ command line.
 
 There are only two operations currently supported by the Cobra generator:
 ## Installation -> Homebrew
-coming up!
-
+```
+$ brew tap my1795/tap
+$ brew install conductor-cli
+```
 ## Config Set Up
 The config file is located at **$HOME/.conductor-cli.yaml** 
 the file contains only baseurl at first run of the command
