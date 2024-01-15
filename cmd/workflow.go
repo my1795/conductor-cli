@@ -32,7 +32,7 @@ var workflowRunningCmd = &cobra.Command{
 	Long: `Workflow resources are instances those can be runnable of workflow definitions.
 		this command targets runnable instances of workflow definitions. For example:
 		
-		cnd workflow showRunning <<workflowname>> returns list of running workflow instance IDs with given workflow names.
+		conductor-cli workflow showRunning <<workflowname>> returns list of running workflow instance IDs with given workflow names.
 
 		Please visit /api/workflow in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -55,7 +55,7 @@ var showWorkflowCmd = &cobra.Command{
 	Short:   "shows workflow exectuions by their id",
 	Long: `For example:
 		
-		cnd workflow show <<workflowId>>.
+		conductor-cli workflow show <<workflowId>>.
 
 		Please visit api/workflow/{workflowId} in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -76,7 +76,7 @@ var restartWorkflowCmd = &cobra.Command{
 	Short:   "restarts workflow executions by their id",
 	Long: `For example:
 		
-		cnd workflow restart <<workflowId>> 
+		conductor-cli workflow restart <<workflowId>> 
 
 		Please visit api/workflow/{workflowId}/restart in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -100,7 +100,7 @@ var searchWorkflowCmd = &cobra.Command{
 	Short:   "searches workflow executions by given free text",
 	Long: `For example:
 		
-		cnd workflow search <<freetext>> 
+		conductor-cli workflow search <<freetext>> 
 
 		Please visit api/workflow/search-v2 in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -123,7 +123,7 @@ var terminateWorkflowCmd = &cobra.Command{
 	Short:   "terminates workflow executions by workflowId",
 	Long: `For example:
 		
-		cnd workflow search <<workflowId>> 
+		conductor-cli workflow search <<workflowId>> 
 
 		Please visit DELETE api/workflow/<<workflowId>> in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -149,7 +149,7 @@ var pauseWorkflowCmd = &cobra.Command{
 	Short:   "pauses workflow executions by workflowId",
 	Long: `For example:
 		
-		cnd workflow pause <<workflowId>> 
+		conductor-cli workflow pause <<workflowId>> 
 
 		Please visit PUT api/workflow/<<workflowId>>/pause in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -168,7 +168,7 @@ var resumeWorkflowCmd = &cobra.Command{
 	Short: "resumes workflow executions by workflowId",
 	Long: `For example:
 		
-		cnd workflow resume <<workflowId>> 
+		conductor-cli workflow resume <<workflowId>> 
 
 		Please visit PUT api/workflow/<<workflowId>>/resume in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -187,7 +187,7 @@ var retryWorkflowCmd = &cobra.Command{
 	Short: "retries workflow executions by their id",
 	Long: `For example:
 		
-		cnd workflow retry <<workflowId>> 
+		conductor-cli workflow retry <<workflowId>> 
 
 		Please visit api/workflow/{workflowId}/retry in swagger documentation of the project. This command's scoped by workflow-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {

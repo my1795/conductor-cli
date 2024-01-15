@@ -16,9 +16,11 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cnd",
-	Short: "",
-	Long:  ``,
+	Use:   "conductor-cli",
+	Short: "Cli app for conductor workflow orchestrator",
+	Long: `use conductor-cli command to manage conductor workflow orchestrator related resources.
+	The cli app mimics REST api of the conductor server. So please check there to have an idea.
+	The cli app does not have full ability of the REST api`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -38,13 +40,13 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cnd.yaml)")
+	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.conductor-cli.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().StringVar(&cfgFile, ".cnd", "", "config file (default is $HOME/.conductor-cli.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, ".conductor-cli", "", "config file (default is $HOME/.conductor-cli.yaml)")
 	rootCmd.PersistentFlags().Bool("viper", true, "Use Viper for configuration")
 
 }
@@ -61,7 +63,7 @@ func initConfig() {
 			os.Exit(1)
 		}
 		viper.Set("baseurl", "http://localhost:8080/api")
-		// Search config in home directory with name ".cnd" (without extension).
+		// Search config in home directory with name ".conductor-cli" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".conductor-cli")
 		viper.SetConfigType("yaml")

@@ -35,7 +35,7 @@ var showTaskCmd = &cobra.Command{
 	Short:   "shows task executions by their id",
 	Long: `For example:
 		
-		cnd task show <<taskId>>.
+		conductor-cli task show <<taskId>>.
 
 		Please visit api/tasks/{taskId} in swagger documentation of the project. This command's scoped by task-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -67,7 +67,7 @@ var queueAllCmd = &cobra.Command{
 	Short:   "get all task queues",
 	Long: `For example:
 		
-		cnd task queue.
+		conductor-cli task queue.
 
 		Please visit api/tasks/queue/all in swagger documentation of the project. This command's scoped by task-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -99,7 +99,7 @@ var pollDataCmd = &cobra.Command{
 	Short:   "get polling data for  task queues",
 	Long: `For example:
 		
-		cnd task poll-data <<taskType>>.
+		conductor-cli task poll-data <<taskType>>.
 
 		Please visit api/tasks/queue/polldata in swagger documentation of the project. This command's scoped by task-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -132,7 +132,7 @@ var queueSizeCmd = &cobra.Command{
 	Short:   "get queue size for  task queues",
 	Long: `For example:
 		
-		cnd task queue-size <<taskType>>.
+		conductor-cli task queue-size <<taskType>>.
 
 		Please visit api/tasks/queue/size in swagger documentation of the project. This command's scoped by task-resource api`,
 	Run: func(cmd *cobra.Command, args []string) {
