@@ -9,8 +9,6 @@ Go will automatically install it in your `$GOPATH/bin` directory which should be
 
 Once installed you should have the `conductor-cli` command available. Confirm by typing `conductor-cli` at a
 command line.
-
-There are only two operations currently supported by the Cobra generator:
 ## Installation -> Homebrew
 ```
 $ brew tap my1795/tap
